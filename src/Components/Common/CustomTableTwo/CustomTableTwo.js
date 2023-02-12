@@ -45,10 +45,16 @@ function CustomTableTwo({
                           </p>  
                         </td>
                         <td>
-                            <FiDownload 
-                                style={{color: '#007737', cursor: 'pointer'}} 
-                                onClick={() => download(cur.id)}
-                            />
+                            {
+                                cur.file !== null ? (
+                                    <FiDownload 
+                                        style={{color: '#007737', cursor: 'pointer'}} 
+                                        onClick={() => console.log(cur)}
+                                    />
+                                ) : (
+                                    <p></p>
+                                )
+                            }
                         </td>  
                     </tr>
                 ))

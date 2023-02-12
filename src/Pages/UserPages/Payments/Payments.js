@@ -128,7 +128,7 @@ function Payments() {
         data.forEach((cur) => {
           if(cur.id === id) {
             invoice = cur
-          }
+          } 
 
           // if(cur.file !== null) {
           //   console.log('got a file')
