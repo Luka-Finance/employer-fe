@@ -112,7 +112,8 @@ function Payments() {
     }
   }; 
 
-  const downloadInvoice = async() => {
+  const downloadInvoice = async(id) => {
+    console.log(id)
     setLoaderText('downloading invoice');
     setLoading(true);
 
@@ -121,14 +122,23 @@ function Payments() {
         url: '/business/get-invoices',
         method: 'GET',
       });
-      if(res.data.data.length > 0) {
-        console.log(res)
-        const url = window.URL.createObjectURL(new Blob([res.data.data]));
+      const data = res.data.data;
+      if(data.length > 0) {
+        let invoice;
+        data.forEach((cur) => {
+          if(cur.id === id) {
+            invoice = cur
+          }
+
+          // if(cur.file !== null) {
+          //   console.log('got a file')
+          //   console.log(cur)
+          // } else {
+          //   console.log('no file') 
+          // }
+        })
         const link = document.createElement('a');
-        link.href = url;
-        let stamp = new Date().now();
-        link.setAttribute('download', `invoice-${stamp}.pdf`); //or any other extension
-        document.body.appendChild(link);
+        link.href = invoice.file;
         link.click();
       } else {
         toast.warning('No invoice data available.', {
@@ -253,7 +263,7 @@ function Payments() {
 				) : (
 					<CustomTableTwo 
             data={payments} 
-            // setShow={() => getInvoiceDetails(id)} 
+            download={downloadInvoice} 
           />
 				)}
 			</div>

@@ -1,12 +1,11 @@
 import React from 'react';
 import { Table } from 'react-bootstrap';
 import getSymbolFromCurrency from 'currency-symbol-map';
-import { BsFillCloudDownloadFill } from 'react-icons/bs';
 import { FiDownload } from 'react-icons/fi';
 
 function CustomTableTwo({
     data,
-    setShow,
+    download,
 }) {
   return (
     <Table
@@ -26,9 +25,6 @@ function CustomTableTwo({
                 data.map((cur) => (
                     <tr 
                         key={cur.id}
-                        onClick={() => {
-                            setShow(cur.id);
-                        }}
                     >
                         <td> {cur.title} </td>
                         <td> 
@@ -49,15 +45,11 @@ function CustomTableTwo({
                           </p>  
                         </td>
                         <td>
-                            <p>
-                                <FiDownload 
-                                    style={{
-                                        color: 'rgba(3, 166, 60, 1)',
-                                        cursor: 'pointer'
-                                    }}
-                                />
-                            </p>
-                        </td>   
+                            <FiDownload 
+                                style={{color: '#007737', cursor: 'pointer'}} 
+                                onClick={() => download(cur.id)}
+                            />
+                        </td>  
                     </tr>
                 ))
             }
