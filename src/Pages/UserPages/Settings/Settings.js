@@ -607,7 +607,7 @@ const initializeForm = () => {
                                 label={'BN / RC Number'}
                                 placeholder={'eg BN1234567 or RC1081237'}
                                 type={'text'}
-                                value={!enterRC ? form.rcNumber : 'Pending approval'}
+                                value={form.rcNumber}
                                 onChange={(e) => {
                                     const value = e.target.value;
                                     onEnterValue({name: 'rcNumber', value});
@@ -617,10 +617,11 @@ const initializeForm = () => {
                                 inputHt={50}
                                 disableInput={!editForm}
                             />
-                            {/* {loadingRC && (<h5 style={{color: 'green'}}>Saving R.C number....</h5>)}
-                            {!loadingRC && (<p style={{color: (!errors.rcNumber && business?.rcNumber !== null)  ? 'rgba(3, 166, 60, 1)' : 'rgba(195, 0, 0, 1)'}} className='number-status-text'>
-                                {(!errors.rcNumber && business?.rcNumber) ? 'RC number verified' : ''}
-                            </p>)} */}
+                            {/* {loadingRC && (<h5 style={{color: 'green'}}>Saving R.C number....</h5>)} */}
+                            {!loadingRC && (<p style={{color:'rgba(3, 166, 60, 1)'}} className='number-status-text'>
+                                {/* {(!errors.rcNumber && business?.rcNumber) ? 'RC number verified' : ''} */}
+                                {enterRC && 'Pending approval'}
+                            </p>)}
                         </div>
                         {/* <div className="number-status-icon-cont">
                             {
@@ -646,7 +647,7 @@ const initializeForm = () => {
                                 label={'JTB / FIRS TIN Number'}
                                 placeholder={'eg 1234567890 or 12345678-0001'}
                                 type={'text'}
-                                value={!enterTIN ? form.tinNumber : 'Pending approval'}
+                                value={form.tinNumber}
                                 onChange={(e) => {
                                     const value = e.target.value;
                                     onEnterValue({name: 'tinNumber', value});
@@ -656,10 +657,11 @@ const initializeForm = () => {
                                 inputHt={50}
                                 disableInput={!editForm}
                             />
-                            {/* {loadingTIM && (<h5 style={{color: 'green'}}>Saving TIN number....</h5>)}
-                            {!loadingTIM && (<p style={{color: (!errors.tinNumber && business?.tin)  ? 'rgba(3, 166, 60, 1)' : 'rgba(195, 0, 0, 1)'}} className='number-status-text'>
-                                {(!errors.tinNumber && business?.tin) ? 'TIN verified' : ''}
-                            </p>)} */}
+                            {/* {loadingTIM && (<h5 style={{color: 'green'}}>Saving TIN number....</h5>)} */}
+                            {!loadingTIM && (<p style={{color:  'rgba(3, 166, 60, 1)'}} className='number-status-text'>
+                                {/* {(!errors.tinNumber && business?.tin) ? 'TIN verified' : ''} */}
+                                {enterTIN && 'Pending approval'}
+                            </p>)}
                         </div>
                         {/* <div className="number-status-icon-cont">
                             {
