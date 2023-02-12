@@ -47,8 +47,8 @@ function Settings() {
         } else if (name === 'rcNumber') {
             let prefix = value.substring(0, 2);
             console.log(prefix)
-            if(prefix !== "RC") {
-                setErrors(prev => {return {...prev, [name]: `Please enter a correct R.C number .`}});
+            if(prefix !== "RC" || prefix !== "BN") {
+                setErrors(prev => {return {...prev, [name]: `Please enter a correct BN/RC number.`}});
               } else {
                 setErrors(prev => {return {...prev, [name]: null}});
             };
@@ -56,7 +56,7 @@ function Settings() {
         } else if (name === 'tinNumber') {
 
             if(value.length < 11 || value.length < 13) {
-                setErrors(prev => {return {...prev, [name]: `TIN number should be 13 characters long.`}});
+                setErrors(prev => {return {...prev, [name]: `Please enter correct TIN number.`}});
               } else {
                 setErrors(prev => {return {...prev, [name]: null}});
             };
@@ -657,7 +657,7 @@ const initializeForm = () => {
                         </div>
                     </div>
 
-                    <p className='cac-input-label'>Upload your CAC document</p>
+                    <p className='cac-input-label'>Upload your CAC certificate</p>
                     <form onSubmit={uploadCac} className='upload-cont' style={{backgroundColor: !editForm ? '#EBEBE4' : 'transparent' }}>
                         <label type={"submit"} htmlFor='cac-upload' style={{cursor: 'pointer'}} className='upload-label'>
                            <MdOutlineCloudUpload style={{color: '#333', fontSize: 22}} /> 
