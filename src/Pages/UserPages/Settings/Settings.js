@@ -29,7 +29,10 @@ function Settings() {
   const businessData = useSelector(state => state.businessData);
   const {business} = businessData;
   const [cac, setCac] = useState('');
-    const dispatch = useDispatch();
+  const dispatch = useDispatch();
+  // temporary presence, will delete later
+  const [enterRC, setEnteredRC] = useState(false);
+  const [enterTIN, setEnteredTIN] = useState(false);
 
   const onEnterValue = ({name, value}) => { 
     setForm({...form, [name]: value});
@@ -47,7 +50,7 @@ function Settings() {
         } else if (name === 'rcNumber') {
             let prefix = value.substring(0, 2);
             console.log(prefix)
-            if(prefix !== "RC" || prefix !== "BN") {
+            if(prefix !== "RC" && prefix !== "BN") {
                 setErrors(prev => {return {...prev, [name]: `Please enter a correct BN/RC number.`}});
               } else {
                 setErrors(prev => {return {...prev, [name]: null}});
@@ -270,6 +273,14 @@ const updateProfile = async() => {
     setLoaderText('Updating profile');
     setLoading(true);
 
+    if(form.rcNumber !== '') {
+        setEnteredRC(true);
+    }
+
+    if(form.tinNumber !== '') {
+        setEnteredTIN(true);
+    }
+
     try {
       const res = await axiosInstance({
         url: '/business/update-profile',
@@ -315,6 +326,7 @@ const updateProfile = async() => {
 };
 
 const initializeForm = () => {
+    // setErrors(prev => {return {...prev}});
     setForm({
         ...form, 
         companyName: business?.name,
@@ -351,33 +363,42 @@ const initializeForm = () => {
 
     const uploadCac = async(e) => {
         e?.preventDefault()
-        setLoading(true);
         let myFile = e.target.files[0];
         if(!myFile) {return};
-        // setCac(myFile);
-        console.log(myFile.size)
-        const formData = new FormData();
-        formData.append('file', e.target.files[0]);
-        let response = await fetch('https://api.luka.finance/business/upload-files?dir=doc', {
-            method: 'POST',
-            body: formData
-        });
-        console.log(response)
-        console.log(response.url)
-        if(response.status === 200) {
+        setLoading(true);
+        setCac(myFile);
+        if(myFile.size < 1000000) {
+            const formData = new FormData();
+            formData.append('file', e.target.files[0]);
+            let response = await fetch('https://api.luka.finance/business/upload-files?dir=doc', {
+                method: 'POST',
+                body: formData
+            });
+            // console.log(response)
+            console.log(response.url)
+            if(response.status === 200) {
+                setLoading(false);
+                // setCac(response.url);
+                toast.success('Great! click on "save" to complete your upload.', {
+                    position: toast.POSITION.TOP_RIGHT
+                }); 
+                return(<ToastContainer />);
+            } else {
+                setLoading(false);
+                toast.warning('Error, please try again.', {
+                    position: toast.POSITION.TOP_RIGHT
+                }); 
+                return(<ToastContainer />);
+            }
+
+        } else if (myFile.size > 1000000) {
             setLoading(false);
-            setCac(response.url);
-            toast.success('Great! please save your upload.', {
-                position: toast.POSITION.TOP_RIGHT
-            }); 
-            return(<ToastContainer />);
-        } else {
-            setLoading(false);
-            toast.warning('Error, please try again.', {
+            toast.warning('File size to large, please maximum of 1mb.', {
                 position: toast.POSITION.TOP_RIGHT
             }); 
             return(<ToastContainer />);
         }
+        
     
     };
 
@@ -586,7 +607,7 @@ const initializeForm = () => {
                                 label={'BN / RC Number'}
                                 placeholder={'eg BN1234567 or RC1081237'}
                                 type={'text'}
-                                value={form.rcNumber}
+                                value={!enterRC ? form.rcNumber : 'Pending approval'}
                                 onChange={(e) => {
                                     const value = e.target.value;
                                     onEnterValue({name: 'rcNumber', value});
@@ -601,7 +622,7 @@ const initializeForm = () => {
                                 {(!errors.rcNumber && business?.rcNumber) ? 'RC number verified' : ''}
                             </p>)} */}
                         </div>
-                        <div className="number-status-icon-cont">
+                        {/* <div className="number-status-icon-cont">
                             {
                                 !loadingRC && (
                                     <>
@@ -615,7 +636,7 @@ const initializeForm = () => {
                                     </>
                                 )
                             }
-                        </div>
+                        </div> */}
                     </div>
 
                     <div className='settings-input-cont-plus-extra'>
@@ -625,7 +646,7 @@ const initializeForm = () => {
                                 label={'JTB / FIRS TIN Number'}
                                 placeholder={'eg 1234567890 or 12345678-0001'}
                                 type={'text'}
-                                value={form.tinNumber}
+                                value={!enterTIN ? form.tinNumber : 'Pending approval'}
                                 onChange={(e) => {
                                     const value = e.target.value;
                                     onEnterValue({name: 'tinNumber', value});
@@ -640,7 +661,7 @@ const initializeForm = () => {
                                 {(!errors.tinNumber && business?.tin) ? 'TIN verified' : ''}
                             </p>)} */}
                         </div>
-                        <div className="number-status-icon-cont">
+                        {/* <div className="number-status-icon-cont">
                             {
                                 !loadingTIM && (
                                     <>
@@ -654,7 +675,7 @@ const initializeForm = () => {
                                     </>
                                 )
                             }
-                        </div>
+                        </div> */}
                     </div>
 
                     <p className='cac-input-label'>Upload your CAC certificate</p>
@@ -667,10 +688,10 @@ const initializeForm = () => {
 
                         <div className='cac-upload-file-name-cont'>
                             <p className='cac-upload-file-name'>
-                                {cac || 'Upload either a PDF, JPEG or PNG file'}
+                                {cac.name || 'Upload either a PDF, JPEG or PNG file'}
                             </p>
 
-                            {cac && (<AiTwotoneDelete onClick={() => setCac('')} style={{fontSize: 20, color: 'red', cursor: 'pointer'}} />)}
+                            {cac.name && (<AiTwotoneDelete onClick={() => setCac('')} style={{fontSize: 20, color: 'red', cursor: 'pointer'}} />)}
                         </div>
                     </form>
                </div>
