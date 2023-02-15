@@ -137,7 +137,6 @@
 	flex-direction: row;
 	align-items: center;
 	width: 100%;
-	/* margin-bottom: 30px; */
 }
 
 .location-cont-child {
@@ -314,7 +313,7 @@
 	font-family: 'DM Sans';
 	font-style: normal;
 	font-weight: 700;
-	font-size: 44px;
+	font-size: 20px;
 	line-height: 57px;
 	color: #03a63c;
 }

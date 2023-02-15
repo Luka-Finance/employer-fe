@@ -54,7 +54,7 @@ function Register() {
 			} else if (name === 'confirmPassword') {
 				if (form.password !== value) {
 					setErrors((prev) => {
-						return { ...prev, [name]: `Passwords do not match` }
+						return { ...prev, [name]: `Passwords does not match` }
 					})
 				} else {
 					setErrors((prev) => {
