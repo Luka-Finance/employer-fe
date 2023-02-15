@@ -86,9 +86,10 @@ function SignIn() {
 			return <ToastContainer />
 		} catch (error) {
 			setLoading(false)
+			// console.log()
 			console.log('err ', error)
-			// const err = error.response.data.message
-			toast.error('err', {
+			const err = error.response.data.message
+			toast.error(err, {
 				position: toast.POSITION.TOP_RIGHT,
 			})
 			return <ToastContainer />
