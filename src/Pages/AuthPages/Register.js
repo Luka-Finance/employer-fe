@@ -39,11 +39,11 @@ function Register() {
 
 		if (value !== '') {
 			if (name === 'password') {
-				if (value.length < 5) {
+				if (value.length < 8) {
 					setErrors((prev) => {
 						return {
 							...prev,
-							[name]: `Password needs to made up of alpha-numeric characters`,
+							[name]: `Password must include at least 8 characters and must include a capital case letter, a lower case and a number`
 						}
 					})
 				} else {
@@ -82,7 +82,7 @@ function Register() {
 					setErrors((prev) => {
 						return {
 							...prev,
-							[name]: `Company email should be properly formated`,
+							[name]: `Please enter a valid email address`,
 						}
 					})
 				} else {
@@ -442,7 +442,7 @@ function Register() {
 
 					<div className='tc-cont'>
 						<label className='check-box-cont'>
-							<input type='checkbox' onClick={() => setTerms(!terms)} />
+							<input type='checkbox' onClick={() => setTerms(!terms)} checked={terms} />
 							<span className='checkmark'></span>
 						</label>
 						<span style={{ paddingTop: 10, marginLeft: 5 }}>

@@ -199,10 +199,10 @@ function Layout({ children, currentPage }) {
 					</div>
 
 					<div className='menu-box'>
-						<div className='bell-cont'>
+						{/* <div className='bell-cont'>
 							<div className='bell-badge'></div>
 							<RiNotification2Fill style={{ fontSize: 28, color: '#C5C7CD' }} />
-						</div>
+						</div> */}
 
 						<div className='nav-profile'>
 							<Image
