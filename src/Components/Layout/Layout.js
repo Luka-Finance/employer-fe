@@ -51,6 +51,12 @@ function Layout({ children, currentPage }) {
 			})
 			const { data, message } = res.data
 			//   console.log('user data ', data)
+			if(data.verifiedAt === null) {
+				dispatch(logoutBusiness())
+				dispatch(logoutUser())
+				accessLocalStorage.clearLs()
+				window.location.replace('/otp-entry')
+			}
 			dispatch(saveBusiness(data))
 			setLoading(false)
 

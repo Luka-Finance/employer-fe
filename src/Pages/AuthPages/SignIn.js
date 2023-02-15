@@ -74,6 +74,7 @@ function SignIn() {
 				},
 			})
 			const { data, message } = res.data
+			console.log(res)
 			const accessToken = data.token
 
 			dispatch(saveAccessToken(accessToken))
