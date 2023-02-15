@@ -38,14 +38,15 @@ function SignIn() {
 					})
 				}
 			} else if (name === 'companyEmail') {
-				const regex = new RegExp(/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/)
+				// const regex = new RegExp(/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/)
+				const regex = new RegExp(/\S+@\S+\.\S+/)
 				const isEmailValid = regex.test(value)
 
 				if (value.length < 12 || !isEmailValid) {
 					setErrors((prev) => {
 						return {
 							...prev,
-							[name]: `Please email should be properly formated`,
+							[name]: `Please enter a valid email address`,
 						}
 					})
 				} else {
