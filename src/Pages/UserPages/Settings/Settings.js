@@ -366,8 +366,9 @@ const initializeForm = () => {
         let myFile = e.target.files[0];
         if(!myFile) {return};
         setLoading(true);
-        setCac(myFile);
+    
         if(myFile.size < 1000000) {
+            setCac(myFile);
             const formData = new FormData();
             formData.append('file', e.target.files[0]);
             let response = await fetch('https://api.luka.finance/business/upload-files?dir=doc', {
@@ -392,6 +393,7 @@ const initializeForm = () => {
             }
 
         } else if (myFile.size > 1000000) {
+            setCac('');
             setLoading(false);
             toast.warning('File size to large, please maximum of 1mb.', {
                 position: toast.POSITION.TOP_RIGHT
@@ -714,6 +716,7 @@ const initializeForm = () => {
                             label={'Set monthly pay day [1 - 28]'}
                             type={'number'}
                             value={form.paymentDate}
+                            placeholder={'Enter a number between 1 - 28'}
                             onChange={(e) => {
                                 const value = e.target.value;
                                 onEnterValue({name: 'paymentDate', value})
