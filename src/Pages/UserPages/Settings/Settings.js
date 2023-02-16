@@ -58,7 +58,7 @@ function Settings() {
 
         } else if (name === 'tinNumber') {
 
-            if(value.length < 11 || value.length < 13) {
+            if(value.length < 11 || value.length < 3) {
                 setErrors(prev => {return {...prev, [name]: `Please enter correct TIN number.`}});
               } else {
                 setErrors(prev => {return {...prev, [name]: null}});
@@ -645,7 +645,7 @@ const initializeForm = () => {
                     <div className='settings-input-cont-plus-extra'>
                         <div style={{flex: 1}}>
                             <Input 
-                                maxLength={13}
+                                // maxLength={13}
                                 label={'JTB / FIRS TIN Number'}
                                 placeholder={'eg 1234567890 or 12345678-0001'}
                                 type={'text'}
