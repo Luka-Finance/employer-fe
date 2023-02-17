@@ -340,6 +340,7 @@ const initializeForm = () => {
         tinNumber: business?.tin === null ? '' : business?.tin,
         paymentDate: business?.payday === null ? '' : business?.payday,
         staffStrength: business?.staffStrength === null ? '' : business?.staffStrength,
+        kycStatus: business?.kycStatus
     });
 };
 
@@ -622,7 +623,7 @@ const initializeForm = () => {
                             {/* {loadingRC && (<h5 style={{color: 'green'}}>Saving R.C number....</h5>)} */}
                             {!loadingRC && (<p style={{color:'rgba(3, 166, 60, 1)'}} className='number-status-text'>
                                 {/* {(!errors.rcNumber && business?.rcNumber) ? 'RC number verified' : ''} */}
-                                {enterRC && 'Pending approval'}
+                                {(form.rcNumber !== '' &&  form.kycStatus === 'pending') && 'Pending approval'}
                             </p>)}
                         </div>
                         {/* <div className="number-status-icon-cont">
@@ -662,7 +663,7 @@ const initializeForm = () => {
                             {/* {loadingTIM && (<h5 style={{color: 'green'}}>Saving TIN number....</h5>)} */}
                             {!loadingTIM && (<p style={{color:  'rgba(3, 166, 60, 1)'}} className='number-status-text'>
                                 {/* {(!errors.tinNumber && business?.tin) ? 'TIN verified' : ''} */}
-                                {enterTIN && 'Pending approval'}
+                                {(form.tinNumber !== '' &&  form.kycStatus === 'pending') && 'Pending approval'}
                             </p>)}
                         </div>
                         {/* <div className="number-status-icon-cont">
