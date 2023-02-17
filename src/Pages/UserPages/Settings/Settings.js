@@ -300,7 +300,7 @@ const updateProfile = async() => {
             contactPersonEmail: form.contactEmail,
             contactPersonRole: form.contactRole,
             contactPersonPhone: form.contactPhone,
-            cacDoc: cac,
+            cacDoc: cac || '',
             staffStrength: form.staffStrength,
             tin: form.tinNumber,
         }
