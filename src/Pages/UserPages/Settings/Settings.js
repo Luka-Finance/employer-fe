@@ -270,6 +270,25 @@ function Settings() {
 
     
 const updateProfile = async() => {
+    // console.log( 'data ',{
+    //             name: form.companyName,
+    //             phone: form.companyPhone,
+    //             country: form.companyCountry,
+    //             city: form.companyCity, 
+    //             email: form.companyEmail,
+    //             paysTransactionFee: form.payTransactionFee || 'Employee',
+    //             payday: form.paymentDate || 28,
+    //             rcNumber: form.rcNumber === "" ? null : form.rcNumber,
+    //             type: 'registered',
+    //             address: form.companyAddress,
+    //             contactPersonName: form.contactName,
+    //             contactPersonEmail: form.contactEmail,
+    //             contactPersonRole: form.contactRole,
+    //             contactPersonPhone: form.contactPhone,
+    //             cacDoc: cac || '',
+    //             staffStrength: form.staffStrength,
+    //             tin: form.tinNumber,
+    //         })
     setLoaderText('Updating profile');
     setLoading(true);
 
@@ -626,21 +645,13 @@ const initializeForm = () => {
                                 {(form.rcNumber !== '' &&  form.kycStatus === 'pending') && 'Pending approval'}
                             </p>)}
                         </div>
-                        {/* <div className="number-status-icon-cont">
+                        <div className="number-status-icon-cont">
                             {
-                                !loadingRC && (
-                                    <>
-                                        {
-                                            business?.rcNumber  ? (
-                                            <BsCheckLg style={{color: 'rgba(3, 166, 60, 1)'}} />
-                                            ) : (
-                                            <MdClose style={{color: 'rgba(195, 0, 0, 1)', fontSize: 18}} />
-                                            )
-                                        }
-                                    </>
-                                )
-                            }
-                        </div> */}
+                                (business?.rcNumber && form.kycStatus === 'approved') && (
+                                <BsCheckLg style={{color: 'rgba(3, 166, 60, 1)'}} />
+                                ) 
+                            }     
+                        </div>
                     </div>
 
                     <div className='settings-input-cont-plus-extra'>
@@ -666,21 +677,13 @@ const initializeForm = () => {
                                 {(form.tinNumber !== '' &&  form.kycStatus === 'pending') && 'Pending approval'}
                             </p>)}
                         </div>
-                        {/* <div className="number-status-icon-cont">
+                        <div className="number-status-icon-cont">
                             {
-                                !loadingTIM && (
-                                    <>
-                                        {
-                                            business?.tin  ? (
-                                            <BsCheckLg style={{color: 'rgba(3, 166, 60, 1)'}} />
-                                            ) : (
-                                            <MdClose style={{color: 'rgba(195, 0, 0, 1)', fontSize: 18}} />
-                                            )
-                                        }
-                                    </>
+                                (business?.tin && form.kycStatus === 'approved')  && (
+                                <BsCheckLg style={{color: 'rgba(3, 166, 60, 1)'}} />
                                 )
                             }
-                        </div> */}
+                        </div>
                     </div>
 
                     <p className='cac-input-label'>Upload your CAC certificate</p>
