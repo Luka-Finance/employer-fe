@@ -363,11 +363,13 @@ const initializeForm = () => {
     });
 };
 
-  const allowEdit = (paramA, paramB) => {
-    if(paramA === true && paramB) {
-        return false;
-    } else if(paramA === true && !paramB) {
+  const allowEdit = (paramA) => {
+    if(paramA === true && form.kycStatus === 'approved') {
         return true;
+    } else if(paramA === false && form.kycStatus === 'approved') {
+        return true;
+    } else if(paramA === true && form.kycStatus === 'pending') {
+        return false;
     }
   };
 
@@ -468,7 +470,7 @@ const initializeForm = () => {
                             value={form.companyName}
                             error={errors.companyName}
                             inputHt={50}
-                            disableInput={!editForm}
+                            disableInput={allowEdit(!editForm)}
                         />
 
                         <div className='adjust-btn-cont'>
@@ -637,7 +639,7 @@ const initializeForm = () => {
                                 }}
                                 error={errors.rcNumber}
                                 inputHt={50}
-                                disableInput={!editForm}
+                                disableInput={allowEdit(!editForm)}
                             />
                             {/* {loadingRC && (<h5 style={{color: 'green'}}>Saving R.C number....</h5>)} */}
                             {!loadingRC && (<p style={{color:'rgba(3, 166, 60, 1)'}} className='number-status-text'>
@@ -669,7 +671,7 @@ const initializeForm = () => {
                                 }}
                                 error={errors.tinNumber}
                                 inputHt={50}
-                                disableInput={!editForm}
+                                disableInput={allowEdit(!editForm)}
                             />
                             {/* {loadingTIM && (<h5 style={{color: 'green'}}>Saving TIN number....</h5>)} */}
                             {!loadingTIM && (<p style={{color:  'rgba(3, 166, 60, 1)'}} className='number-status-text'>
@@ -687,12 +689,12 @@ const initializeForm = () => {
                     </div>
 
                     <p className='cac-input-label'>Upload your CAC certificate</p>
-                    <form onSubmit={uploadCac} className='upload-cont' style={{backgroundColor: !editForm ? '#EBEBE4' : 'transparent' }}>
+                    <form onSubmit={uploadCac} className='upload-cont' style={{backgroundColor: allowEdit(!editForm) ? '#EBEBE4' : 'transparent' }}>
                         <label type={"submit"} htmlFor='cac-upload' style={{cursor: 'pointer'}} className='upload-label'>
                            <MdOutlineCloudUpload style={{color: '#333', fontSize: 22}} /> 
                         </label>
 
-                        <input id='cac-upload' onChange={uploadCac} className='cac-upload-input' type={'file'} disabled={!editForm} />
+                        <input id='cac-upload' onChange={uploadCac} className='cac-upload-input' type={'file'} disabled={allowEdit(!editForm)} />
 
                         <div className='cac-upload-file-name-cont'>
                             <p className='cac-upload-file-name'>
