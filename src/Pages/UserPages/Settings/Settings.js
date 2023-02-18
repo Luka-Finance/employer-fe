@@ -369,6 +369,8 @@ const initializeForm = () => {
     } else if(paramA === false && form.kycStatus === 'approved') {
         return true;
     } else if(paramA === true && form.kycStatus === 'pending') {
+        return true;
+    } else if(paramA === false && form.kycStatus === 'pending') {
         return false;
     }
   };
