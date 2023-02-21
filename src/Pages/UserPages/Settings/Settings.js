@@ -49,7 +49,6 @@ function Settings() {
 
         } else if (name === 'rcNumber') {
             let prefix = value.substring(0, 2);
-            console.log(prefix)
             if(prefix !== "RC" && prefix !== "BN") {
                 setErrors(prev => {return {...prev, [name]: `Please enter a correct BN/RC number.`}});
               } else {
@@ -270,25 +269,6 @@ function Settings() {
 
     
 const updateProfile = async() => {
-    // console.log( 'data ',{
-    //             name: form.companyName,
-    //             phone: form.companyPhone,
-    //             country: form.companyCountry,
-    //             city: form.companyCity, 
-    //             email: form.companyEmail,
-    //             paysTransactionFee: form.payTransactionFee || 'Employee',
-    //             payday: form.paymentDate || 28,
-    //             rcNumber: form.rcNumber === "" ? null : form.rcNumber,
-    //             type: 'registered',
-    //             address: form.companyAddress,
-    //             contactPersonName: form.contactName,
-    //             contactPersonEmail: form.contactEmail,
-    //             contactPersonRole: form.contactRole,
-    //             contactPersonPhone: form.contactPhone,
-    //             cacDoc: cac || '',
-    //             staffStrength: form.staffStrength,
-    //             tin: form.tinNumber,
-    //         })
     setLoaderText('Updating profile');
     setLoading(true);
 

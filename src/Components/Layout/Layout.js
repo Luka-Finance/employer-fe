@@ -54,7 +54,9 @@ function Layout({ children, currentPage }) {
 			if(data.verifiedAt === null) {
 				dispatch(logoutBusiness())
 				dispatch(logoutUser())
-				accessLocalStorage.clearLs()
+				// accessLocalStorage.clearLs()
+				accessLocalStorage.setToLs('companyEmail', data.email)
+			accessLocalStorage.setToLs('companyPhone', `+${data.phone}`)
 				window.location.replace('/otp-entry')
 			}
 			dispatch(saveBusiness(data))
