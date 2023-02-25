@@ -31,8 +31,6 @@ function Settings() {
   const [cac, setCac] = useState('');
   const dispatch = useDispatch();
   // temporary presence, will delete later
-  const [enterRC, setEnteredRC] = useState(false);
-  const [enterTIN, setEnteredTIN] = useState(false);
 
   const onEnterValue = ({name, value}) => { 
     setForm({...form, [name]: value});
@@ -57,7 +55,7 @@ function Settings() {
 
         } else if (name === 'tinNumber') {
 
-            if(value.length < 11 || value.length < 3) {
+            if(value.length < 1) {
                 setErrors(prev => {return {...prev, [name]: `Please enter correct TIN number.`}});
               } else {
                 setErrors(prev => {return {...prev, [name]: null}});
@@ -269,16 +267,27 @@ function Settings() {
 
     
 const updateProfile = async() => {
+    // console.log({
+    //         name: form.companyName,
+    //         phone: form.companyPhone,
+    //         country: form.companyCountry,
+    //         city: form.companyCity, 
+    //         email: form.companyEmail,
+    //         paysTransactionFee: form.payTransactionFee || 'Employee',
+    //         payday: form.paymentDate || 28,
+    //         rcNumber: form.rcNumber === "" ? null : form.rcNumber,
+    //         type: 'registered',
+    //         address: form.companyAddress,
+    //         contactPersonName: form.contactName,
+    //         contactPersonEmail: form.contactEmail,
+    //         contactPersonRole: form.contactRole,
+    //         contactPersonPhone: form.contactPhone,
+    //         cacDoc: cac || '',
+    //         staffStrength: form.staffStrength,
+    //         tin: form.tinNumber,
+    //     })
     setLoaderText('Updating profile');
     setLoading(true);
-
-    if(form.rcNumber !== '') {
-        setEnteredRC(true);
-    }
-
-    if(form.tinNumber !== '') {
-        setEnteredTIN(true);
-    }
 
     try {
       const res = await axiosInstance({
@@ -467,9 +476,9 @@ const initializeForm = () => {
                             }} 
                             className='edit-and-save-btn'
                         >
-                            {editForm ? 'Save' : 'Edit'}
+                            {editForm ? '' : 'Edit'}
                         </p>
-                        <span 
+                        {/* <span 
                             className='cancel-btn'
                             style={{
                                 display: editForm ? 'inline-block' : 'none'
@@ -480,7 +489,7 @@ const initializeForm = () => {
                             }}
                         >
                             Cancel
-                        </span>
+                        </span> */}
                         </div>
                     </div>
 

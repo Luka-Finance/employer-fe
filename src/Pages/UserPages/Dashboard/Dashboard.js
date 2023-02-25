@@ -121,7 +121,8 @@ function Dashboard() {
 					})
 				}
 			} else if (name === 'email') {
-				const regex = new RegExp(/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/)
+				// const regex = new RegExp(/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/)
+				const regex = new RegExp(/\S+@\S+\.\S+/)
 				const isEmailValid = regex.test(value)
 
 				if (value.length < 12 || !isEmailValid) {
@@ -244,6 +245,7 @@ function Dashboard() {
 				})
 				setLoadingStaffAdd(false)
 				setCreated(true)
+				getBusinessStats()
 				return <ToastContainer />
 			} catch (error) {
 				setLoadingStaffAdd(false)
@@ -352,8 +354,10 @@ function Dashboard() {
                   />
                 </div> */}
 							{InputListOne.map((input) => {
-								const { label, id, type, tag } = input
-								const max = new Date().toISOString().split('T')[0]
+								const { label, id, type, tag } = input;
+								const leap = 1
+								var CurrentDate = new Date();
+								const max = new Date(CurrentDate.setMonth(CurrentDate.getMonth() + leap)).toISOString().split('T')[0];
 								return (
 									<div key={id} className='employee-form-input-cont'>
 										<Input
@@ -429,7 +433,6 @@ function Dashboard() {
 							onClick={() => {
 								handleClose()
 								setCreated(false)
-								getBusinessStats()
 							}}
 							className='success-emplyee-text'>
 							Go to account

@@ -79,10 +79,8 @@ function Accounts() {
 
 	const onEnterValue = ({ name, value }) => {
 		if (staff?.firstName.length > 0) {
-			console.log({name, value})
 			setStaff({ ...staff, [name]: value })
 		} else {
-			console.log({name, value})
 			setForm({ ...form, [name]: value })
 		}
 
@@ -156,7 +154,8 @@ function Accounts() {
 					})
 				}
 			} else if (name === 'email') {
-				const regex = new RegExp(/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/)
+				// const regex = new RegExp(/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/)
+				const regex = new RegExp(/\S+@\S+\.\S+/); 
 				const isEmailValid = regex.test(value)
 
 				if (value.length < 12 || !isEmailValid) {
@@ -475,7 +474,9 @@ function Accounts() {
                 </div> */}
 							{InputListOne.map((input) => {
 								const { label, id, type, tag } = input
-								const max = new Date().toISOString().split('T')[0]
+								const leap = 1;
+								var CurrentDate = new Date();
+								const max = new Date(CurrentDate.setMonth(CurrentDate.getMonth() + leap)).toISOString().split('T')[0];
 								return (
 									<div key={id} className='employee-form-input-cont'>
 										<Input
