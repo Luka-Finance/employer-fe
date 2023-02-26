@@ -7,6 +7,7 @@ function CustomTableTwo({
     data,
     download,
 }) {
+    console.log(data)
   return (
     <Table
         // hover
@@ -28,7 +29,8 @@ function CustomTableTwo({
                     >
                         <td> {cur.title} </td>
                         <td> 
-                            {getSymbolFromCurrency('NGN')} {cur.items[0].amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                            {/* {getSymbolFromCurrency('NGN')} {cur.items[0]?.amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} */}
+                            {getSymbolFromCurrency('NGN')} {cur?.total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                         </td>
                         <td> 
                           <p 
@@ -41,7 +43,7 @@ function CustomTableTwo({
                                 borderRadius: 3
                             }}
                           >
-                            {cur.status}  
+                            {`${cur.status.split('_')[0]} ${cur.status.split('_')[1]}`}  
                           </p>  
                         </td>
                         <td>

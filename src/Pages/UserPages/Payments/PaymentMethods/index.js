@@ -55,7 +55,7 @@ function PaymentMethod({accDetails, closeModal}) {
                     </option> */}
                     <option value="transfer">
                         <option> <RiBankLine style={{color: '#333', fontSize: 15}} /> </option>
-                        <option className='selector-opt-text'> Pay through card transfer </option>
+                        <option className='selector-opt-text'> Pay through bank transfer </option>
                     </option>
                 </Form.Select>
 
