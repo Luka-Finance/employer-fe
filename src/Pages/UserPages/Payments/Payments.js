@@ -97,6 +97,7 @@ function Payments() {
       });
       const {data, message} = res.data;
       setDetails(data);
+      // console.log(data);
       // toast.success(message, {
       //   position: toast.POSITION.TOP_RIGHT
       // });
@@ -294,25 +295,25 @@ function Payments() {
                 Account name:
               </span>
 
-						<span>{details.walletName}</span>
+						<span>{details !== null ? details.walletName : ''}</span>
 					</div>
 
 					<div style={{ margin: '10px 0px' }}>
 						<span style={{ marginRight: 20 }}>Account number:</span>
 
-						<span>{details.wallet}</span>
+						<span>{details !== null ? details.wallet : ''}</span>
 					</div>
 
 					<div style={{ margin: '10px 0px' }}>
 						<span style={{ marginRight: 20 }}>Bank name:</span>
 
-						<span>{details.bankName}</span>
+						<span>{details !== null ? details.bankName : ''}</span>
 					</div>
 
 					<div style={{ margin: '10px 0px' }}>
 						<span style={{ marginRight: 20 }}>Bank number:</span>
 
-						<span>{details.accountNumber}</span>
+						<span>{details !== null ? details.accountNumber : ''}</span>
 					</div>
 				</Modal.Body>
 				<Modal.Footer>

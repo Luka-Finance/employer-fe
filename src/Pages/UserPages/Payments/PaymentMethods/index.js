@@ -54,8 +54,8 @@ function PaymentMethod({accDetails, closeModal}) {
                         <span className='selector-opt-text'> Pay with card </span>
                     </option> */}
                     <option value="transfer">
-                        <span> <RiBankLine style={{color: '#333', fontSize: 15}} /> </span>
-                        <span className='selector-opt-text'> Pay through card transfer </span>
+                        <option> <RiBankLine style={{color: '#333', fontSize: 15}} /> </option>
+                        <option className='selector-opt-text'> Pay through card transfer </option>
                     </option>
                 </Form.Select>
 
@@ -117,15 +117,21 @@ function PaymentMethod({accDetails, closeModal}) {
 
                             <div className='bank-details-sub-cont'>
                                 <p className='bank-details-text'>Account name :</p>
-                                <p className='bank-details-text'>{accDetails.accountName === "" ? "Luka Technologies LTD" : accDetails.accountName}</p>
+                                <p className='bank-details-text'>
+                                    {(accDetails === null || accDetails?.accountName === '') ? "Luka Technologies LTD" : accDetails.accountName}
+                                </p>
                             </div>
                             <div className='bank-details-sub-cont'>
                                 <p className='bank-details-text'>Account number :</p>
-                                <p className='bank-details-text'>{accDetails.accountName === "" ? "5401656450" : accDetails.accountNumber}</p>
+                                <p className='bank-details-text'>
+                                    {(accDetails === null || accDetails?.accountName === "") ? "5401656450" : accDetails.accountNumber}
+                                </p>
                             </div>
                             <div className='bank-details-sub-cont'>
                                 <p className='bank-details-text'>Bank name :</p>
-                                <p className='bank-details-text'>{accDetails.accountName === "" ? "Providus Bank" : accDetails.bankName}</p>
+                                <p className='bank-details-text'>
+                                    {(accDetails === null || accDetails?.accountName === "") ? "Providus Bank" : accDetails.bankName}
+                                </p>
                             </div>
 
                             <div style={{width: 385, margin: '50px auto auto auto',}}>

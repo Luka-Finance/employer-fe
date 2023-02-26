@@ -14,6 +14,7 @@ import './Styles.css';
 import { useSelector, useDispatch } from 'react-redux';
 import { saveBusiness } from '../../../Redux/Actions/businessActions';
 import { AiTwotoneDelete } from 'react-icons/ai';
+import Spinner from 'react-bootstrap/Spinner'
 // import PhoneInput from 'react-phone-input-2'
 
 function Settings() {
@@ -22,6 +23,7 @@ function Settings() {
   });
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
+  const [loadingCac, setLoadingCac] = useState(false);
   const [loadingRC, setLoadingRC] = useState(false);
   const [loadingTIM, setLoadingTIN] = useState(false);
   const [loaderText, setLoaderText] = useState('');
@@ -29,6 +31,7 @@ function Settings() {
   const businessData = useSelector(state => state.businessData);
   const {business} = businessData;
   const [cac, setCac] = useState('');
+  const [cacUrl, setCacUrl] = useState('');
   const dispatch = useDispatch();
   // temporary presence, will delete later
 
@@ -267,25 +270,6 @@ function Settings() {
 
     
 const updateProfile = async() => {
-    // console.log({
-    //         name: form.companyName,
-    //         phone: form.companyPhone,
-    //         country: form.companyCountry,
-    //         city: form.companyCity, 
-    //         email: form.companyEmail,
-    //         paysTransactionFee: form.payTransactionFee || 'Employee',
-    //         payday: form.paymentDate || 28,
-    //         rcNumber: form.rcNumber === "" ? null : form.rcNumber,
-    //         type: 'registered',
-    //         address: form.companyAddress,
-    //         contactPersonName: form.contactName,
-    //         contactPersonEmail: form.contactEmail,
-    //         contactPersonRole: form.contactRole,
-    //         contactPersonPhone: form.contactPhone,
-    //         cacDoc: cac || '',
-    //         staffStrength: form.staffStrength,
-    //         tin: form.tinNumber,
-    //     })
     setLoaderText('Updating profile');
     setLoading(true);
 
@@ -308,7 +292,7 @@ const updateProfile = async() => {
             contactPersonEmail: form.contactEmail,
             contactPersonRole: form.contactRole,
             contactPersonPhone: form.contactPhone,
-            cacDoc: cac || '',
+            cacDoc: cacUrl || '',
             staffStrength: form.staffStrength,
             tin: form.tinNumber,
         }
@@ -350,6 +334,7 @@ const initializeForm = () => {
         staffStrength: business?.staffStrength === null ? '' : business?.staffStrength,
         kycStatus: business?.kycStatus
     });
+    setErrors({})
 };
 
   const allowEdit = (paramA) => {
@@ -378,7 +363,7 @@ const initializeForm = () => {
         e?.preventDefault()
         let myFile = e.target.files[0];
         if(!myFile) {return};
-        setLoading(true);
+        setLoadingCac(true);
     
         if(myFile.size < 1000000) {
             setCac(myFile);
@@ -389,16 +374,16 @@ const initializeForm = () => {
                 body: formData
             });
             // console.log(response)
-            console.log(response.url)
+            // console.log(response.url)
             if(response.status === 200) {
-                setLoading(false);
-                setCac(response.url);
+                setCacUrl(response.url);
+                setLoadingCac(false);
                 toast.success('Great! click on "save" to complete your upload.', {
                     position: toast.POSITION.TOP_RIGHT
                 }); 
                 return(<ToastContainer />);
             } else {
-                setLoading(false);
+                setLoadingCac(false);
                 toast.warning('Error, please try again.', {
                     position: toast.POSITION.TOP_RIGHT
                 }); 
@@ -407,7 +392,7 @@ const initializeForm = () => {
 
         } else if (myFile.size > 1000000) {
             setCac('');
-            setLoading(false);
+            setLoadingCac(false);
             toast.warning('File size to large, please maximum of 1mb.', {
                 position: toast.POSITION.TOP_RIGHT
             }); 
@@ -682,7 +667,13 @@ const initializeForm = () => {
                     <p className='cac-input-label'>Upload your CAC certificate</p>
                     <form onSubmit={uploadCac} className='upload-cont' style={{backgroundColor: allowEdit(!editForm) ? '#EBEBE4' : 'transparent' }}>
                         <label type={"submit"} htmlFor='cac-upload' style={{cursor: 'pointer'}} className='upload-label'>
-                           <MdOutlineCloudUpload style={{color: '#333', fontSize: 22}} /> 
+                            {
+                                loadingCac ? (
+                                    <Spinner animation='border' variant='success' /> 
+                                ) : (
+                                    <MdOutlineCloudUpload style={{color: '#333', fontSize: 22}} />
+                                )
+                            }   
                         </label>
 
                         <input id='cac-upload' onChange={uploadCac} className='cac-upload-input' type={'file'} disabled={allowEdit(!editForm)} />
