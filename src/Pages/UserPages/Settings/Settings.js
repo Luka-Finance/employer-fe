@@ -252,10 +252,10 @@ function Settings() {
       dispatch(saveBusiness(data))
       setLoading(false);
 
-      toast.success(message, {
-        position: toast.POSITION.TOP_RIGHT
-      });
-      return(<ToastContainer />)
+    //   toast.success(message, {
+    //     position: toast.POSITION.TOP_RIGHT
+    //   });
+    //   return(<ToastContainer />)
     } catch(error) {
       setLoading(false);
     //   console.log(error);
@@ -272,7 +272,6 @@ function Settings() {
 const updateProfile = async() => {
     setLoaderText('Updating profile');
     setLoading(true);
-
     try {
       const res = await axiosInstance({
         url: '/business/update-profile',
@@ -297,15 +296,15 @@ const updateProfile = async() => {
             tin: form.tinNumber,
         }
       });
+      console.log('res', res.data.message)  
       setEditForm(false);
       initializeForm();
       setCac('');
-      const {message} = res.data;
-        toast.success(message, {
+      setLoading(false); 
+      getUserData();
+        toast.success(res.data.message, {
             position: toast.POSITION.TOP_RIGHT
         });
-        setLoading(false); 
-        getUserData();
         return(<ToastContainer />)  
     } catch (error) {
         setLoading(false);
@@ -406,10 +405,6 @@ const initializeForm = () => {
     initializeForm();
     checkForKyc();
   }, [business, businessData])
-
-//   useEffect(() => {
-//     checkForKyc();
-//   }, [])
 
   if(loading) {
     return (<LoaderScreen loadingText={loaderText} />)

@@ -139,11 +139,12 @@ function Layout({ children, currentPage }) {
 			getUserData()
 		}
 
-		window.addEventListener('beforeunload', scrubToken)
+		//commented bellow due to unintended access token scrubing
+		// window.addEventListener('beforeunload', scrubToken)
 
-		return () => {
-			window.removeEventListener('beforeunload', scrubToken)
-		}
+		// return () => {
+		// 	window.removeEventListener('beforeunload', scrubToken)
+		// }
 	}, [])
 
 	if (loading) {

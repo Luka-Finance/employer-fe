@@ -20,7 +20,7 @@ function CustomSelector({
           {
             options.map((opt, index) => (
               <option value={opt} key={index}>
-               <p className='option-text'>  {opt} </p>
+               <options className='option-text'>  {opt} </options>
               </option>
             ))
           }
