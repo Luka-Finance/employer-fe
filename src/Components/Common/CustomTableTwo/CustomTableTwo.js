@@ -2,6 +2,7 @@ import React from 'react';
 import { Table } from 'react-bootstrap';
 import getSymbolFromCurrency from 'currency-symbol-map';
 import { FiDownload } from 'react-icons/fi';
+import Moment from 'react-moment';
 
 function CustomTableTwo({
     data,
@@ -16,9 +17,12 @@ function CustomTableTwo({
     >
         <thead>
             <tr>
-                <th>Date Paid</th>
-                <th>Amount Paid</th>
+                <th>Title</th>
+                <th>Created at</th>
+                <th>Due date</th>
+                <th>Amount</th>
                 <th>Status</th>
+                <th>Invoice</th>
             </tr>
         </thead>
         <tbody>
@@ -28,6 +32,12 @@ function CustomTableTwo({
                         key={cur.id}
                     >
                         <td> {cur.title} </td>
+                        <td> 
+                            {<Moment date={cur.createdAt} format="DD/MM/YYYY" />} 
+                        </td>
+                        <td> 
+                            {<Moment date={cur.dueDate} format="DD/MM/YYYY" />} 
+                        </td>
                         <td> 
                             {/* {getSymbolFromCurrency('NGN')} {cur.items[0]?.amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} */}
                             {getSymbolFromCurrency('NGN')} {cur?.total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
@@ -49,10 +59,13 @@ function CustomTableTwo({
                         <td>
                             {
                                 cur.file !== null ? (
-                                    <FiDownload 
-                                        style={{color: '#007737', cursor: 'pointer'}} 
-                                        onClick={() => console.log(cur)}
-                                    />
+                                    <div style={{alignItems: 'center', cursor: 'pointer'}} onClick={() => download(cur.id)}>
+                                        <FiDownload 
+                                            style={{color: '#007737'}} 
+                                        />
+
+                                        <span style={{color: '#007737', marginLeft: 10}}>download</span>
+                                    </div>
                                 ) : (
                                     <p></p>
                                 )

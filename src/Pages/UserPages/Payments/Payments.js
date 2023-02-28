@@ -130,13 +130,6 @@ function Payments() {
           if(cur.id === id) {
             invoice = cur
           } 
-
-          // if(cur.file !== null) {
-          //   console.log('got a file')
-          //   console.log(cur)
-          // } else {
-          //   console.log('no file') 
-          // }
         })
         const link = document.createElement('a');
         link.href = invoice.file;
