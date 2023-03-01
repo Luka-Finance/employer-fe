@@ -216,8 +216,10 @@ function Payments() {
           auxHeadFilter={false}
           auxHeadTitle={'Payments'}
           auxHeadBtnClick={downloadInvoice}
-          auxBtnTitle={'Download Invoice'}
-          auxBtnAppear={false}
+          auxBtnTitle={'Download Pending Payment Invoice'}
+          auxBtnAppear={true}
+          auxBtnWt={273}
+          payBtn={true}
         />
 
         <div 

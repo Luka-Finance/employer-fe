@@ -68,8 +68,17 @@
 }
 
 .aux-head-btn-cont {
-	width: 198px;
 	height: 47px;
+}
+
+.pay-btn {
+	background: #03A63C;
+	border-radius: 5px;
+	width: 82px;
+	height: 47px;
+	color: white;
+	outline: none;
+	border: none;
 }
 
 @media screen and (max-width: 799px) {

@@ -11,6 +11,8 @@ function AuxPageHead({
     auxBtnIcon,
     auxBtnAppear,
     onAuxSearchChange,
+    auxBtnWt,
+    payBtn,
 }) {
   return (
     <div className='aux-head-cont'>
@@ -37,17 +39,30 @@ function AuxPageHead({
 
         {
             auxBtnAppear ? (
-                <div className='aux-head-btn-cont'>
-                    <CustomButton
-                        btnHeight={47}
-                        onClick={auxHeadBtnClick} 
-                        title={auxBtnTitle}
-                        textColor={'#fff'}
-                        bgColor={'rgba(3, 166, 60, 1)'}
-                        disabled={false}
-                        icon={auxBtnIcon}
-                        btnFontSize={13}
-                    />
+                <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: 400}}>
+                    {
+                        payBtn && (
+                            <button className='pay-btn'>
+                                Pay
+                            </button>
+                        )
+                    }
+
+                    <div
+                        style={{width: !auxBtnWt ? 198 : auxBtnWt}}  
+                        className='aux-head-btn-cont'
+                    >
+                        <CustomButton
+                            btnHeight={47}
+                            onClick={auxHeadBtnClick} 
+                            title={auxBtnTitle}
+                            textColor={'#fff'}
+                            bgColor={'rgba(3, 166, 60, 1)'}
+                            disabled={false}
+                            icon={auxBtnIcon}
+                            btnFontSize={13}
+                        />
+                    </div>
                 </div>
             ) : ('')
         }

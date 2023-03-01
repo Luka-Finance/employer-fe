@@ -15,6 +15,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { saveBusiness } from '../../../Redux/Actions/businessActions';
 import { AiTwotoneDelete } from 'react-icons/ai';
 import Spinner from 'react-bootstrap/Spinner'
+import { Alert } from 'react-bootstrap';
 // import PhoneInput from 'react-phone-input-2'
 
 function Settings() {
@@ -33,7 +34,11 @@ function Settings() {
   const [cac, setCac] = useState('');
   const [cacUrl, setCacUrl] = useState('');
   const dispatch = useDispatch();
-  // temporary presence, will delete later
+  const [show, setShow] = useState(false);
+  const [updateRes, setUpdateRes] = useState({
+    status: '',
+    message: ''
+  });
 
   const onEnterValue = ({name, value}) => { 
     setForm({...form, [name]: value});
@@ -97,19 +102,18 @@ function Settings() {
 
         } else if (name === 'contactRole') {
 
-            if(value.length < 3) {
-                setErrors(prev => {return {...prev, [name]: `Contact role should be a minimum of 4 characters`}});
-              } else {
+            if(value) {
                 setErrors(prev => {return {...prev, [name]: null}});
             };
 
         } else if (name === 'contactEmail') {
 
-            const regex = new RegExp (/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/);
+            // const regex = new RegExp (/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/);
+            const regex = new RegExp(/\S+@\S+\.\S+/)
             const isEmailValid = regex.test(value);
 
             if(value.length < 12 || !isEmailValid) {
-                setErrors(prev => {return {...prev, [name]: `Company email should be properly formated`}});
+                setErrors(prev => {return {...prev, [name]: `Contact email should be properly formated`}});
             } else {
                 setErrors(prev => {return {...prev, [name]: null}});
             };
@@ -166,76 +170,16 @@ function Settings() {
               setErrors(prev => {return {...prev, [name]: null}});
             };
     
+        } else if (name === 'staffStrength') {
+
+            if(value) {
+                setErrors(prev => {return {...prev, [name]: null}});
+            }
+    
         }
 
     } else {
         setErrors(prev => {return {...prev, [name]: `This field is required`}});  
-    }
-  };
-
-  const verifyRcNUmber = async(value) => {
-    if(value.length === 9) {
-        setLoadingRC(true);
-        try {
-            const res = await axiosInstance({
-                url: '/business/verify/rc',
-                method: 'POST',
-                data: {
-                    companyName: form.companyName,
-                    rcNumber: form.rcNumber
-                }
-            });
-            const {message} = res.data;
-            updateProfile();
-            toast.success(message, {
-                position: toast.POSITION.TOP_RIGHT
-            });
-            setLoadingRC(false);
-            return(<ToastContainer />)
-        } catch (error) {
-            setForm({...form, ['rcNumber']: ''});
-            setLoadingRC(false);
-            const err = error.response.data.message;
-            setErrors(prev => {return {...prev, ['rcNumber']: `${err}`}});
-            console.log('rc error data  ', error)
-            console.log('rc erro  ', err)
-            toast.error(err, {
-                position: toast.POSITION.TOP_RIGHT
-            })
-            return(<ToastContainer />)
-        }
-    }
-  };
-
-  const verifyTin = async(value) => {
-    if(value.length === 13) {
-        setLoadingTIN(true);
-        try {
-            const res = await axiosInstance({
-                url: '/business/verify/tin',
-                method: 'POST',
-                data: {
-                    ompanyName: form.companyName,
-                    searchParameter: value,
-                }
-            });
-            const {message} = res.data;
-            updateProfile();
-            toast.success(message, {
-                position: toast.POSITION.TOP_RIGHT
-            });
-            setLoadingTIN(false);
-            return(<ToastContainer />)
-        } catch (error) {
-            setForm({...form, ['tinNumber']: ''});
-            setLoadingTIN(false);
-            const err = error.response.data.message
-            setErrors(prev => {return {...prev, ['tinNumber']: `${err}`}});
-            toast.error(err, {
-                position: toast.POSITION.TOP_RIGHT
-            })
-            return(<ToastContainer />)
-        }
     }
   };
 
@@ -267,7 +211,6 @@ function Settings() {
     };
 
 };
-
     
 const updateProfile = async() => {
     setLoaderText('Updating profile');
@@ -296,25 +239,113 @@ const updateProfile = async() => {
             tin: form.tinNumber,
         }
       });
-      console.log('res', res.data.message)  
+    //   console.log('res', res.data.message)  
+      setUpdateRes({
+        status: "success",
+        message: res.data.message
+      });
       setEditForm(false);
       initializeForm();
       setCac('');
       setLoading(false); 
       getUserData();
+      setShow(true)
         toast.success(res.data.message, {
             position: toast.POSITION.TOP_RIGHT
         });
         return(<ToastContainer />)  
     } catch (error) {
         setLoading(false);
-        const err = error.response.data.message
+        const err = error.response.data.message;
+        setShow(true)
+        setUpdateRes({
+            status: "danger",
+            message: err
+          });
         toast.error(err, {
             position: toast.POSITION.TOP_RIGHT
         })
         return(<ToastContainer />)   
     }
 };
+
+const onSubmit = () => {
+    if (!form.companyName) {
+        setErrors((prev) => {
+            return { ...prev, companyName: 'Please add a company name' }
+        })
+    }
+
+    if (!form.companyEmail) {
+        setErrors((prev) => {
+            return { ...prev, companyEmail: 'Please add a company email' }
+        })
+    }
+
+    if (!form.companyPhone) {
+        setErrors((prev) => {
+            return { ...prev, companyPhone: 'Please add a company phone number' }
+        })
+    } 
+
+    if (!form.contactName) {
+        setErrors((prev) => {
+            return { ...prev, contactName: 'Please add a contact person name' }
+        })
+    } 
+
+    if (!form.contactRole) {
+        setErrors((prev) => {
+            return { ...prev, contactRole: 'Please add contact person role' }
+        })
+    } 
+
+    if (!form.contactEmail) {
+        setErrors((prev) => {
+            return { ...prev, contactEmail: 'Please add contact person email' }
+        })
+    }
+    
+    if (!form.contactPhone) {
+        setErrors((prev) => {
+            return { ...prev, contactPhone: 'Please add contact person phone' }
+        })
+    }
+
+    if (!form.staffStrength) {
+        setErrors((prev) => {
+            return { ...prev, staffStrength: 'Please this field is required' }
+        })
+    }
+
+    if (!form.rcNumber) {
+        setErrors((prev) => {
+            return { ...prev, rcNumber: 'Please this field is required' }
+        })
+    }
+
+    if (!form.tinNumber) {
+        setErrors((prev) => {
+            return { ...prev, tinNumber: 'Please this field is required' }
+        })
+    }
+
+    if (!cacUrl) {
+        setErrors((prev) => {
+            return { ...prev, cacUrl: 'Please upload your CAC' }
+        })
+    }
+
+    if (!form.paymentDate) {
+        setErrors((prev) => {
+            return { ...prev, paymentDate: 'Please enter a payment ' }
+        })
+    } else if (Object.keys(form).length === 12) {
+        updateProfile();  
+    } else {
+      console.log(form)
+    }
+}
 
 const initializeForm = () => {
     // setErrors(prev => {return {...prev}});
@@ -376,6 +407,7 @@ const initializeForm = () => {
             // console.log(response.url)
             if(response.status === 200) {
                 setCacUrl(response.url);
+                setErrors(prev => {return {...prev, cacUrl: null}});
                 setLoadingCac(false);
                 toast.success('Great! click on "save" to complete your upload.', {
                     position: toast.POSITION.TOP_RIGHT
@@ -421,6 +453,11 @@ const initializeForm = () => {
          auxBtnAppear={false}
         />
         <div className='settings-dashboard'>
+            <div style={{width: '100%'}}>
+                <Alert show={show} variant={updateRes.status} onClose={() => setShow(false)} dismissible>
+                    <Alert.Heading>{updateRes.message}</Alert.Heading>
+                </Alert>
+            </div>
 
             <div className='settings-sub-cont'>
                <div className='settings-form-title-cont'>
@@ -659,28 +696,31 @@ const initializeForm = () => {
                         </div>
                     </div>
 
-                    <p className='cac-input-label'>Upload your CAC certificate</p>
-                    <form onSubmit={uploadCac} className='upload-cont' style={{backgroundColor: allowEdit(!editForm) ? '#EBEBE4' : 'transparent' }}>
-                        <label type={"submit"} htmlFor='cac-upload' style={{cursor: 'pointer'}} className='upload-label'>
-                            {
-                                loadingCac ? (
-                                    <Spinner animation='border' variant='success' /> 
-                                ) : (
-                                    <MdOutlineCloudUpload style={{color: '#333', fontSize: 22}} />
-                                )
-                            }   
-                        </label>
+                    <div style={{marginBottom: 50}}>
+                        <p className='cac-input-label'>Upload your CAC certificate</p>
+                        <form onSubmit={uploadCac} className='upload-cont' style={{backgroundColor: allowEdit(!editForm) ? '#EBEBE4' : 'transparent' }}>
+                            <label type={"submit"} htmlFor='cac-upload' style={{cursor: 'pointer'}} className='upload-label'>
+                                {
+                                    loadingCac ? (
+                                        <Spinner animation='border' variant='success' /> 
+                                    ) : (
+                                        <MdOutlineCloudUpload style={{color: '#333', fontSize: 22}} />
+                                    )
+                                }   
+                            </label>
 
-                        <input id='cac-upload' onChange={uploadCac} className='cac-upload-input' type={'file'} disabled={allowEdit(!editForm)} />
+                            <input id='cac-upload' onChange={uploadCac} className='cac-upload-input' type={'file'} disabled={allowEdit(!editForm)} />
 
-                        <div className='cac-upload-file-name-cont'>
-                            <p className='cac-upload-file-name'>
-                                {cac.name || 'Upload either a PDF, JPEG or PNG file'}
-                            </p>
+                            <div className='cac-upload-file-name-cont'>
+                                <p className='cac-upload-file-name'>
+                                    {cac.name || 'Upload either a PDF, JPEG or PNG file'}
+                                </p>
 
-                            {cac.name && (<AiTwotoneDelete onClick={() => setCac('')} style={{fontSize: 20, color: 'red', cursor: 'pointer'}} />)}
-                        </div>
-                    </form>
+                                {cac.name && (<AiTwotoneDelete onClick={() => setCac('')} style={{fontSize: 20, color: 'red', cursor: 'pointer'}} />)}
+                            </div>
+                        </form>
+                        {errors.cacUrl && <h5 className='error-text'>{errors.cacUrl}</h5>}
+                    </div>
                </div>
 
             </div>
@@ -729,7 +769,7 @@ const initializeForm = () => {
                     <div className='settings-btn-alpha-cont'>
                         <div className='settings-form-btn-cont'>
                             <CustomButton
-                                onClick={() => updateProfile()} 
+                                onClick={() => onSubmit()} 
                                 title={'Save Changes'}
                                 textColor={'#fff'}
                                 bgColor={'rgba(3, 166, 60, 1)'}

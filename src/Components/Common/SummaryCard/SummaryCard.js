@@ -18,18 +18,8 @@ function SummaryCard({ data }) {
 			<div className='dashboard-card' style={{ margin: '0px 20px 20px 0px' }}>
 				<div className='dashboard-card-head'>
 					<p className='dashboard-card-text' style={{ color: '#000' }}>
-						{/* <span
-							style={{
-								marginRight: 5,
-								fontFamily: 'DM Sans',
-							}}>
-							{getSymbolFromCurrency('NGN')}
-						</span> */}
 						<span>
 							{formatter.format(data.totalEarnedThisMonth)}
-							{/* {data.totalEarnedThisMonth
-								.toString()
-								.replace(/\B(?=(\d{3})+(?!\d))/g, ',')} */}
 						</span>
 					</p>
 
@@ -40,20 +30,14 @@ function SummaryCard({ data }) {
 					</p>
 				</div>
 
-				<p className='dashboard-card-text-2'>Accessible Funds This Month</p>
+				<p className='dashboard-card-text-2'>Total earned this month</p>
 			</div>
 
 			<div className='dashboard-card' style={{ margin: '0px 20px 20px 0px' }}>
 				<div className='dashboard-card-head'>
 					<p className='dashboard-card-text' style={{ color: '#000' }}>
-						{/* <span style={{ marginRight: 5 }}>
-							{getSymbolFromCurrency('NGN')}
-						</span> */}
 						<span>
 							{formatter.format(data.totalWithdrawn)}
-							{/* {data.totalWithdrawn
-								.toString()
-								.replace(/\B(?=(\d{3})+(?!\d))/g, ',')} */}
 						</span>
 					</p>
 
@@ -64,20 +48,14 @@ function SummaryCard({ data }) {
 					</p>
 				</div>
 
-				<p className='dashboard-card-text-2'>Total Amount Withdrawn</p>
+				<p className='dashboard-card-text-2'>Total Withdrawn</p>
 			</div>
 
 			<div className='dashboard-card'>
 				<div className='dashboard-card-head'>
 					<p className='dashboard-card-text' style={{ color: '#C30000' }}>
-						{/* <span style={{ marginRight: 5 }}>
-							{getSymbolFromCurrency('NGN')}
-						</span> */}
 						<span>
 							{formatter.format(data.pendingBalance)}
-							{/* {data.pendingBalance
-								.toString()
-								.replace(/\B(?=(\d{3})+(?!\d))/g, ',')} */}
 						</span>
 					</p>
 
