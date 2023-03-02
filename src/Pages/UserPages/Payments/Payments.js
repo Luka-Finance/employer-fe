@@ -220,25 +220,19 @@ function Payments() {
           auxBtnAppear={true}
           auxBtnWt={273}
           payBtn={true}
+          payBtnClick={handleShowA}
         />
 
         <div 
           className='dashboard-card-cont'
-          onClick={handleShowA}
-          style={{cursor: 'pointer'}}
         >
           <div 
            className='dashboard-card'
           >
           <div className='dashboard-card-head'>
             <p className='dashboard-card-text' style={{color: '#C30000'}} >
-              {/* <span style={{marginRight: 5}}>{(getSymbolFromCurrency('NGN'))}</span> */}
               <span>
               {formatter.format(stats.pendingBalance)}
-                {/* {
-                  stats.pendingBalance.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-                 
-                } */}
               </span>
             </p>
 

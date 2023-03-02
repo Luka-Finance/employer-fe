@@ -13,6 +13,7 @@ function AuxPageHead({
     onAuxSearchChange,
     auxBtnWt,
     payBtn,
+    payBtnClick,
 }) {
   return (
     <div className='aux-head-cont'>
@@ -42,7 +43,10 @@ function AuxPageHead({
                 <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: 400}}>
                     {
                         payBtn && (
-                            <button className='pay-btn'>
+                            <button 
+                                className='pay-btn'
+                                onClick={payBtnClick}
+                            >
                                 Pay
                             </button>
                         )

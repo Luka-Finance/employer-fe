@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
 import './styles.css';
 import CustomButton from '../../../../Components/Common/CustomButton/Index';
-import { AiOutlineCreditCard } from 'react-icons/ai';
 import { RiBankLine } from 'react-icons/ri';
-import { Dropdown } from 'react-bootstrap';
-import { FiChevronDown } from 'react-icons/fi';
 import Form from 'react-bootstrap/Form';
+import Input from '../../../../Components/Common/Input/Input';
 
 function PaymentMethod({accDetails, closeModal}) {
   const [paymentMethod, setPaymentMethod] = useState('');
@@ -13,6 +11,7 @@ function PaymentMethod({accDetails, closeModal}) {
   const [expire, setExpire] = useState('');
   const [cvv, setCvv] = useState('');
   const [amount, setAmount] = useState(0);
+  const [errors, setErrors] = useState({});
 
   const handleCardDisplay = () => {
         const rawText = [...cardNum.split(' ').join('')] // Remove old space
@@ -37,6 +36,14 @@ function PaymentMethod({accDetails, closeModal}) {
             /^([0-1]{1}[0-9]{1})([0-9]{1,2}).*/g, '$1/$2' // To handle 113 > 11/3
         );
     }
+
+    const onSubmit = () => {
+        if(amount < 500) {
+            setErrors(prev => {return {...prev, amount: `Minimum of 500 naira deposit required`}}); 
+        } else {
+            closeModal()
+        }
+    };
 
   return (
     <div className='payment-method-parent'>
@@ -111,6 +118,19 @@ function PaymentMethod({accDetails, closeModal}) {
                         </div>
                     ) : paymentMethod === 'transfer' ? (
                         <div className='method-cont'>
+                            <div style={{marginBottom: 5}}>
+                                <Input
+                                    label={'Enter Amount'} 
+                                     type={'number'}
+                                     className='method-input'
+                                     onChange={(e) => {
+                                        setAmount(e.target.value);
+                                        setErrors(prev => {return {...prev, amount: null}});
+                                    }}
+                                     error={errors.amount}
+                                />
+                            </div>
+
                             <p className='bank-details-title'>
                                 Bank details
                             </p>
@@ -134,9 +154,9 @@ function PaymentMethod({accDetails, closeModal}) {
                                 </p>
                             </div>
 
-                            <div style={{width: 385, margin: '50px auto auto auto',}}>
+                            <div style={{width: 385, margin: '20px auto auto auto',}}>
                                 <CustomButton 
-                                    onClick={closeModal}
+                                    onClick={onSubmit}
                                     btnHeight={66}
                                     textColor={'#fff'}
                                     bgColor={'#03A63C'}
