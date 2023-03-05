@@ -53,18 +53,24 @@ function PaymentMethod({accDetails, closeModal}) {
 
         <div className='payment-method-body'>
             <div className='sub-cont'>
-                <p className='payment-method-title'>Select payment method</p>
-                <Form.Select onChange={(e) => setPaymentMethod(e.target.value)} style={{height: 50}} aria-label="Default select example">
-                    <option>Select payment method</option>
-                    {/* <option value="card">
-                        <span> <AiOutlineCreditCard style={{color: '#333', fontSize: 15}} /> </span>
-                        <span className='selector-opt-text'> Pay with card </span>
-                    </option> */}
-                    <option value="transfer">
-                        <option> <RiBankLine style={{color: '#333', fontSize: 15}} /> </option>
-                        <option className='selector-opt-text'> Pay through bank transfer </option>
-                    </option>
-                </Form.Select>
+                {
+                    paymentMethod !== 'transfer' && (
+                        <>
+                            <p className='payment-method-title'>Select payment method</p>
+                            <Form.Select onChange={(e) => setPaymentMethod(e.target.value)} style={{height: 50}} aria-label="Default select example">
+                                <option>Select payment method</option>
+                                {/* <option value="card">
+                                    <span> <AiOutlineCreditCard style={{color: '#333', fontSize: 15}} /> </span>
+                                    <span className='selector-opt-text'> Pay with card </span>
+                                </option> */}
+                                <option value="transfer">
+                                    <option> <RiBankLine style={{color: '#333', fontSize: 15}} /> </option>
+                                    <option className='selector-opt-text'> Pay through bank transfer </option>
+                                </option>
+                            </Form.Select>
+                        </>
+                    )
+                }
 
                 {
                     paymentMethod === 'card' ? (
@@ -118,7 +124,7 @@ function PaymentMethod({accDetails, closeModal}) {
                         </div>
                     ) : paymentMethod === 'transfer' ? (
                         <div className='method-cont'>
-                            <div style={{marginBottom: 5}}>
+                            <div style={{marginBottom: 30}}>
                                 <Input
                                     label={'Enter Amount'} 
                                      type={'number'}
@@ -154,13 +160,13 @@ function PaymentMethod({accDetails, closeModal}) {
                                 </p>
                             </div>
 
-                            <div style={{width: 385, margin: '20px auto auto auto',}}>
+                            <div style={{width: 385, margin: '50px auto auto auto',}}>
                                 <CustomButton 
                                     onClick={onSubmit}
                                     btnHeight={66}
                                     textColor={'#fff'}
                                     bgColor={'#03A63C'}
-                                    title={'Confirm payment'}
+                                    title={'I have made a transfer'}
                                     btnFontSize={20}
                                     disabledColor={'rgba(3, 166, 60, 0.5)'}
                                     disabled={false}
