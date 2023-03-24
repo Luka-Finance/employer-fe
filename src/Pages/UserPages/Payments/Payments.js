@@ -12,8 +12,11 @@ import getSymbolFromCurrency from 'currency-symbol-map';
 import {BsExclamationSquare} from 'react-icons/bs';
 import { Modal } from 'react-bootstrap';
 import PaymentMethod from './PaymentMethods';
+import { useSelector } from 'react-redux';
 
 function Payments() {
+  const businessData = useSelector(state => state.businessData);
+  const {business} = businessData;
   const [show, setShow] = useState(false);
   const [showA, setShowA] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -67,16 +70,14 @@ function Payments() {
     setLoading(true);
     try {
       const res = await axiosInstance({
-        url: '/business/get-invoices',
+        // url: '/business/get-invoices',
+        url: `/business/payments-by-business/${business.id}`,
         method: 'GET'
       });
-      const {data, message} = res.data;
+      const {data} = res.data;
+      // console.log('business data', data)
       setPayments(data);
-      // toast.success(message, {
-      //   position: toast.POSITION.TOP_RIGHT
-      // });
       setLoading(false);
-      // return(<ToastContainer />)
     } catch (error) {
       setLoading(false);
       const err = error.response.data.message
@@ -243,7 +244,7 @@ function Payments() {
 						</p>
 					</div>
 
-					<p className='dashboard-card-text-2'>{paymentStat === 0 ? "Pending Balance" : "Validating Payment"}</p>
+					<p className='dashboard-card-text-2'>{paymentStat === 0 ? "Pending Balance" : "Your payment is being validated"}</p>
 				</div>
 			</div>
 
@@ -252,7 +253,8 @@ function Payments() {
 					<p className='empty-state-text'>No Payments made yet</p>
 				) : (
 					<CustomTableTwo 
-            data={payments} 
+            data={payments}
+            // data={[]} 
             download={downloadInvoice} 
           />
 				)}

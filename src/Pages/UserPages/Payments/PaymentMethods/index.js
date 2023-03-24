@@ -4,6 +4,9 @@ import CustomButton from '../../../../Components/Common/CustomButton/Index';
 import { RiBankLine } from 'react-icons/ri';
 import Form from 'react-bootstrap/Form';
 import Input from '../../../../Components/Common/Input/Input';
+import axiosInstance from '../../../../Utils/axiosInstance';
+import { Spinner } from 'react-bootstrap';
+// import toast
 
 function PaymentMethod({accDetails, closeModal}) {
   const [paymentMethod, setPaymentMethod] = useState('');
@@ -12,6 +15,7 @@ function PaymentMethod({accDetails, closeModal}) {
   const [cvv, setCvv] = useState('');
   const [amount, setAmount] = useState(0);
   const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false);
 
   const handleCardDisplay = () => {
         const rawText = [...cardNum.split(' ').join('')] // Remove old space
@@ -37,11 +41,29 @@ function PaymentMethod({accDetails, closeModal}) {
         );
     }
 
+    const paymentMade = async() => {
+        setLoading(true);
+        try {
+           const res = await axiosInstance({
+            url: '/business/payment',
+            method: 'POST',
+            data: {
+                amount,
+            }
+           });
+           setLoading(false); 
+           closeModal();
+        } catch (error) {
+          console.log('payment err ', error);
+          setLoading(false);  
+        }
+    };
+
     const onSubmit = () => {
         if(amount < 500) {
             setErrors(prev => {return {...prev, amount: `Minimum of 500 naira deposit required`}}); 
         } else {
-            closeModal()
+            paymentMade();
         }
     };
 
@@ -134,6 +156,7 @@ function PaymentMethod({accDetails, closeModal}) {
                                         setErrors(prev => {return {...prev, amount: null}});
                                     }}
                                      error={errors.amount}
+                                     disableInput={loading}
                                 />
                             </div>
 
@@ -169,7 +192,16 @@ function PaymentMethod({accDetails, closeModal}) {
                                     title={'I have made a transfer'}
                                     btnFontSize={20}
                                     disabledColor={'rgba(3, 166, 60, 0.5)'}
-                                    disabled={false}
+                                    disabled={loading}
+                                    icon={
+                                        loading && (
+                                            <Spinner
+                                                style={{ marginTop: 5, marginLeft: 15 }}
+                                                animation='border'
+                                                variant='light'
+                                            />
+                                        )
+                                    }
                                 />
                             </div>
                         </div>
